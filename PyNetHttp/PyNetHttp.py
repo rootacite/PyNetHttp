@@ -24,7 +24,7 @@ class HTTPRequest(server.BaseHTTPRequestHandler):
 def handle_client(client_socket):
    
     request_data = client_socket.recv(4096)
-    hr = HTTPRequest(str(request_data,"utf-8"));
+    hr = HTTPRequest(str(request_data, encoding = "utf-8"));
     print("request data:", hr.command)
      
     response_start_line = "HTTP/1.1 200 OK\r\n"
