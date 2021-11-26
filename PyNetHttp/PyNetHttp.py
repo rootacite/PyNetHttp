@@ -7,13 +7,28 @@ import socket
 
 from multiprocessing import Process
 
+from http import server
+from io import StringIO
+ 
+class HTTPRequest(server.BaseHTTPRequestHandler):
+    def __init__(self, request_text):
+        self.rfile = StringIO(request_text)
+        self.raw_requestline = self.rfile.readline()
+        self.error_code = self.error_message = None
+        self.parse_request()
+ 
+    def send_error(self, code, message):
+        self.error_code = code
+        self.error_message = message
+
 def handle_client(client_socket):
    
-    request_data = client_socket.recv(1024)
-    print("request data:", request_data)
+    request_data = client_socket.recv(4096)
+    hr = HTTPRequest(request_data);
+    print("request data:", hr.command)
      
     response_start_line = "HTTP/1.1 200 OK\r\n"
-    response_headers = "Server: My server\r\n"
+    response_headers = "Server: ShiYuan Li\r\n"
     response_body = "<h1>Python HTTP Test</h1>"
     response = response_start_line + response_headers + "\r\n" + response_body
 
