@@ -23,10 +23,20 @@ def handle_client(client_socket):
     
     client_socket.close()
 
+def get_host_ip():
+   
+    try:
+        s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8',80))
+        ip=s.getsockname()[0]
+    finally:
+        s.close()
 
+    return ip
 if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(("", 8000))
+    host = get_host_ip()
+    server_socket.bind((host, 8000))
     server_socket.listen(128)
 
     while True:
