@@ -17,7 +17,7 @@ def handle_client(client_socket):
    
     request_data = client_socket.recv(4096)
     
-    request_n=str(request_data,"utf-8").split('\n')
+    request_n=str(request_data,"utf-8").split('\n');
     print("request data:", hr.command)
      
     response_start_line = "HTTP/1.1 200 OK\r\n"
