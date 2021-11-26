@@ -25,7 +25,7 @@ def handle_client(client_socket):
         sv+="\n"
     print("request data:", sv)
      
-    response_start_line = "HTTP/1.1 200 OK\r\n"
+    response_start_line = "HTTP/1.1 403 Forbidden\r\n"
     response_headers = "Server: ShiYuan Li\r\n"
     response_body = "<h1>Python HTTP Test</h1>"
     response = response_start_line + response_headers + "\r\n" + response_body
