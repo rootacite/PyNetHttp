@@ -36,6 +36,7 @@ def get_host_ip():
 if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = get_host_ip()
+    print(host)
     server_socket.bind((host, 8000))
     server_socket.listen(128)
 
