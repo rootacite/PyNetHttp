@@ -37,7 +37,7 @@ if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = "150.158.103.209";
     print(host)
-    server_socket.bind(("150.158.103.209", 8000))
+    server_socket.bind((socket.gethostname(), 8000))
     server_socket.listen(128)
 
     while True:
