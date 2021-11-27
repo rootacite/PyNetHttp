@@ -28,7 +28,7 @@ def handle_client(client_socket):
     print("request data:", request_n[0]) 
 
     try:
-     if request_n[0][0:2]=="POST":
+     if request_n[0][0:3]==" POST":
          print(request_n[len(request_n)-1])
          tx=request_n[len(request_n)-1]
          rtx=tx.split(' ')
