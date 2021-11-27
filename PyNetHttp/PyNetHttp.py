@@ -81,8 +81,8 @@ if __name__ == "__main__":
     server_socket.listen(128)
 
     th = threading.Thread(target=ControlThread);
-    #th.start()
-    #th.join()
+    th.start()
+    th.join()
     while True:
         client_socket, client_address = server_socket.accept()
         print("[%s, %s]User connect" % client_address)
