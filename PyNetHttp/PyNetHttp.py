@@ -25,7 +25,7 @@ def handle_client(client_socket):
     for i in it:
         sv+=i;
         sv+="\n"
-    print("request data:", sv) 
+    print("request data:", request_n[0]) 
 
     try:
      if request_n[0][0:2]=="POST":
