@@ -55,7 +55,7 @@ def ControlThread():
         if rtx[0]=='show':
             print(Data);
         if rtx[0]=='setq':
-            if rtx.count()<2:
+            if rtx.len()<2:
                 print("Error : SE");
                 continue;
             Data['Question']=rtx[1];
