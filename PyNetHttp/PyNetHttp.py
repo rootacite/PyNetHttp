@@ -49,9 +49,19 @@ def get_host_ip():
 
     return ip
 
+HOST = get_host_ip()
+PORT = 4468
+
+us = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+us.bind((HOST, PORT))
+
 def ControlThread():
     while True:
-        tx=input()
+        data, address = us.recvfrom(1024)
+
+        tx=str(data,encoding="utf-8")
+        print(address)
         rtx=tx.split(' ')
         if rtx[0]=='show':
             print(Data);
@@ -71,8 +81,8 @@ if __name__ == "__main__":
     server_socket.listen(128)
 
     th = threading.Thread(target=ControlThread);
-    th.start()
-    th.join()
+    #th.start()
+    #th.join()
     while True:
         client_socket, client_address = server_socket.accept()
         print("[%s, %s]User connect" % client_address)
