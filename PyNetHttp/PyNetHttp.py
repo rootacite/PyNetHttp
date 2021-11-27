@@ -13,6 +13,7 @@ from io import StringIO
 Data = {'Question': "你妈死了吗", 'A1': "死了", 'A2': "没死",'A3': "快死了",'A4': "快复活了"}
 Statistical= {'A1': 0, 'A2': 0,'A3': 0, 'A4': 0}
 
+Forbidden = []
 
 def handle_client(client_socket):
    
@@ -24,7 +25,7 @@ def handle_client(client_socket):
     for i in it:
         sv+=i;
         sv+="\n"
-    print("request data:", sv)
+    print("request data:", sv) 
      
     response_start_line = "HTTP/1.1 200 Success\r\n"
     response_headers = "Server: ShiYuan Li\r\n"
