@@ -1,4 +1,3 @@
-
 # coding:utf-8
 
 #coding=gbk
@@ -25,7 +24,7 @@ def handle_client(client_socket):
         sv+="\n"
     print("request data:", sv)
      
-    response_start_line = "HTTP/1.1 403 Forbidden\r\n"
+    response_start_line = "HTTP/1.1 200 Success\r\n"
     response_headers = "Server: ShiYuan Li\r\n"
     response_body = ""
     response = response_start_line + response_headers + "\r\n" + response_body
@@ -50,7 +49,7 @@ if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = get_host_ip();
     print(host)
-    server_socket.bind(("0.0.0.0", 8000))
+    server_socket.bind((host, 8000))
     server_socket.listen(128)
 
     while True:
