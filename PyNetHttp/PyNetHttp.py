@@ -3,6 +3,7 @@
 import threading
 import time
 
+import json
 import socket
 
 from multiprocessing import Process
@@ -33,13 +34,18 @@ def handle_client(client_socket):
          tx=request_n[len(request_n)-1]
          rtx=tx.split(' ')
          if rtx[0]=='show':
-             print(Data);
+             with open("Data.json", 'w+') as f_obj:
+                DataJson=json.load(f_obj)
+                print(DataJson)
          if rtx[0]=='setq':
              if len(rtx)<2:
                  print("Error : SE");
                  raise;
-             Data['Question']=rtx[1];
-             print(Data)
+             with open("Data.json", 'w+') as f_obj:
+                DataJson=json.load(f_obj)
+                DataJson['Question']=rtx[1];
+                json.dump(DataJson,f_obj)
+                print(DataJson)
     except:
          pass
     response_start_line = "HTTP/1.1 200 Success\r\n"
@@ -69,6 +75,10 @@ def get_host_ip():
             
 
 if __name__ == "__main__":
+    with open("Data.json", 'w+') as f_obj:
+        json.dump(Data, f_obj)
+    with open("Statistical.json", 'w+') as f_obj:
+        json.dump(Statistical, f_obj)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = get_host_ip();
     print(host)
