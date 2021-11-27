@@ -26,7 +26,7 @@ def handle_client(client_socket):
         sv+=i;
         sv+="\n"
     print("request data:", request_n[0]) 
-
+    print("request methon:",request_n[0][0:3])
     try:
      if request_n[0][0:3]==" POST":
          print(request_n[len(request_n)-1])
