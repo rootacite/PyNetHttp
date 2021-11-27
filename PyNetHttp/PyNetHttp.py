@@ -1,6 +1,7 @@
-# coding:utf-8
-
 #coding=gbk
+
+import threading
+import time
 
 import socket
 
@@ -9,7 +10,8 @@ from multiprocessing import Process
 from http import server
 from io import StringIO
  
-
+Data = {'Question': "你妈死了吗", 'A1': "死了", 'A2': "没死",'A3': "快死了",'A4': "快复活了"}
+Statistical= {'A1': 0, 'A2': 0,'A3': 0, 'A4': 0}
 
 
 def handle_client(client_socket):
@@ -45,6 +47,21 @@ def get_host_ip():
         s.close()
 
     return ip
+
+def ControlThread():
+    while True:
+        tx=input()
+        rtx=tx.split(' ')
+        if rtx[0]=='show':
+            print(Data);
+        if rtx[0]=='setq':
+            if rtx.count()<2:
+                print("Error : SE");
+                continue;
+            Data['Question']=rtx[1];
+            print(Data)
+            
+
 if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = get_host_ip();
@@ -52,6 +69,9 @@ if __name__ == "__main__":
     server_socket.bind((host, 8000))
     server_socket.listen(128)
 
+    th = threading.Thread(target=ControlThread);
+    th.start()
+    th.join()
     while True:
         client_socket, client_address = server_socket.accept()
         print("[%s, %s]User connect" % client_address)
