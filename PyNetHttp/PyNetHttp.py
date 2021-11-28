@@ -12,9 +12,8 @@ from http import server
 from io import StringIO
  
 Data = {'Question': "你妈死了吗", 'A1': "死了", 'A2': "没死",'A3': "快死了",'A4': "快复活了"}
-Statistical= {'A1': 0, 'A2': 0,'A3': 0, 'A4': 0}
+Statistical= {'A1': [], 'A2': [],'A3': [], 'A4': []}
 
-Forbidden = []
 def get_host_ip():
    
     try:
@@ -31,8 +30,9 @@ def get_host_ip():
 
 def handle_client(client_socket):
     request_data = client_socket.recv(4096)
-    
+    response_body="";
     request_n=str(request_data,"utf-8").split('\n');
+
     sv="";
     it=iter(request_n)
     for i in it:
@@ -44,27 +44,79 @@ def handle_client(client_socket):
          print("Command:",request_n[len(request_n)-1])
          tx=request_n[len(request_n)-1]
          rtx=tx.split(' ')
-         if rtx[0]=='show':
-             with open("Data.json", 'r') as f_obj:
-                DataJson=json.load(f_obj)
-                print(DataJson)
-         if rtx[0]=='setq':
-             if len(rtx)<2:
+         
+         if rtx[0]=='set':
+             if len(rtx)<6:
                  print("Error : SE");
                  raise;
              with open("Data.json", 'r') as f_obj:
                 DataJson=json.load(f_obj)
                 DataJson["Question"]=rtx[1];
+                DataJson["A1"]=rtx[2];
+                DataJson["A2"]=rtx[3];
+                DataJson["A3"]=rtx[4];
+                DataJson["A4"]=rtx[5];
              with open("Data.json", 'w') as f_obj:
                 json.dump(DataJson,f_obj)
              with open("Data.json", 'r') as f_obj:
                 DataJson=json.load(f_obj)
                 print(DataJson)
+                response_body=str(DataJson)
+             
+
+             with open("Statistical.json", 'r') as f_obj:
+                DataJson=json.load(f_obj)
+                DataJson['A1'].clear()
+                DataJson['A2'].clear()
+                DataJson['A3'].clear()
+                DataJson['A4'].clear()
+                
+             with open("Statistical.json", 'w') as f_obj:
+                json.dump(DataJson,f_obj)
+         if rtx[0]=='ans':
+             if len(rtx)<3:
+                 print("Error : SE");
+                 raise;
+             
+             with open("Statistical.json", 'r') as f_obj:
+                DataJson=json.load(f_obj)
+                if (rtx[2] in DataJson['A1']) or (rtx[2] in DataJson['A2']) or (rtx[2] in DataJson['A3']) or (rtx[2] in DataJson['A4']):
+                 raise;
+                if rtx[1]=='A1':
+                    DataJson['A1'].append(rtx[2])
+                elif rtx[1]=='A2':
+                    DataJson['A2'].append(rtx[2])
+                elif rtx[1]=='A3':
+                    DataJson['A3'].append(rtx[2])
+                elif rtx[1]=='A4':
+                    DataJson['A4'].append(rtx[2])
+                
+             with open("Statistical.json", 'w') as f_obj:
+                json.dump(DataJson,f_obj)
+             with open("Statistical.json", 'r') as f_obj:
+                DataJson=json.load(f_obj)
+                print(DataJson)
+                response_body=str(DataJson)
+     if request_n[0][0:4]=="GET ":
+         print("Command:",request_n[len(request_n)-1])
+         tx=request_n[len(request_n)-1]
+         rtx=tx.split(' ')
+         if True:
+             with open("Data.json", 'r') as f_obj:
+                DataJson=json.load(f_obj)
+                print(DataJson)
+                response_body=str(DataJson)
+             with open("Statistical.json", 'r') as f_obj:
+                DataJson=json.load(f_obj)
+                print(DataJson)
+                response_body+='\n';
+                response_body+=str(DataJson)
+
+
     except:
          pass
     response_start_line = "HTTP/1.1 200 Success\r\n"
     response_headers = "Server: ShiYuan Li\r\n"
-    response_body = ""
     response = response_start_line + response_headers + "\r\n" + response_body
 
     
@@ -85,6 +137,7 @@ if __name__ == "__main__":
     server_socket.bind((host, 8000))
     server_socket.listen(128)
 
+    
     while True:
         client_socket, client_address = server_socket.accept()
         print("[%s, %s]User connect" % client_address)
