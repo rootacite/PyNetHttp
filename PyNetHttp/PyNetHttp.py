@@ -81,15 +81,15 @@ def handle_client(client_socket):
              
              with open("Statistical.json", 'r') as f_obj:
                 DataJson=json.load(f_obj)
-                if not(rtx[2] in DataJson['A1']) or (rtx[2] in DataJson['A2']) or (rtx[2] in DataJson['A3']) or (rtx[2] in DataJson['A4']):
-                  
-                 if rtx[1]=='A1':
+                if (rtx[2] in DataJson['A1']) or (rtx[2] in DataJson['A2']) or (rtx[2] in DataJson['A3']) or (rtx[2] in DataJson['A4']):
+                  raise;
+                if rtx[1]=='A1':
                     DataJson['A1'].append(rtx[2])
-                 elif rtx[1]=='A2':
+                elif rtx[1]=='A2':
                     DataJson['A2'].append(rtx[2])
-                 elif rtx[1]=='A3':
+                elif rtx[1]=='A3':
                     DataJson['A3'].append(rtx[2])
-                 elif rtx[1]=='A4':
+                elif rtx[1]=='A4':
                     DataJson['A4'].append(rtx[2])
                 
              with open("Statistical.json", 'w') as f_obj:
