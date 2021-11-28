@@ -15,50 +15,6 @@ Data = {'Question': "你妈死了吗", 'A1': "死了", 'A2': "没死",'A3': "快死了",'A4'
 Statistical= {'A1': 0, 'A2': 0,'A3': 0, 'A4': 0}
 
 Forbidden = []
-
-def handle_client(client_socket):
-   
-    request_data = client_socket.recv(4096)
-    
-    request_n=str(request_data,"utf-8").split('\n');
-    sv="";
-    it=iter(request_n)
-    for i in it:
-        sv+=i;
-        sv+="\n"
-    print("request data:", request_n[0]) 
-    print("request methon:","<"+request_n[0][0:4]+">")
-    try:
-     if request_n[0][0:4]=="POST":
-         print(request_n[len(request_n)-1])
-         tx=request_n[len(request_n)-1]
-         rtx=tx.split(' ')
-         if rtx[0]=='show':
-             with open("Data.json", 'w+') as f_obj:
-                DataJson=json.load(f_obj)
-                print(DataJson)
-         if rtx[0]=='setq':
-             if len(rtx)<2:
-                 print("Error : SE");
-                 raise;
-             with open("Data.json", 'w+') as f_obj:
-                DataJson=json.load(f_obj)
-                DataJson['Question']=rtx[1];
-                json.dump(DataJson,f_obj)
-                print(DataJson)
-    except:
-         pass
-    response_start_line = "HTTP/1.1 200 Success\r\n"
-    response_headers = "Server: ShiYuan Li\r\n"
-    response_body = ""
-    response = response_start_line + response_headers + "\r\n" + response_body
-
-    
-    client_socket.send(bytes(response, "utf-8"))
-
-    
-    client_socket.close()
-
 def get_host_ip():
    
     try:
@@ -72,7 +28,50 @@ def get_host_ip():
 
 
         
-            
+
+def handle_client(client_socket):
+    request_data = client_socket.recv(4096)
+    
+    request_n=str(request_data,"utf-8").split('\n');
+    sv="";
+    it=iter(request_n)
+    for i in it:
+        sv+=i;
+        sv+="\n"
+    print("request methon:","<"+request_n[0][0:4]+">")
+    try:
+     if request_n[0][0:4]=="POST":
+         print("Command:",request_n[len(request_n)-1])
+         tx=request_n[len(request_n)-1]
+         rtx=tx.split(' ')
+         if rtx[0]=='show':
+             with open("Data.json", 'r') as f_obj:
+                DataJson=json.load(f_obj)
+                print(DataJson)
+         if rtx[0]=='setq':
+             if len(rtx)<2:
+                 print("Error : SE");
+                 raise;
+             with open("Data.json", 'w') as f_obj:
+                DataJson=json.load(f_obj)
+                DataJson['Question']=rtx[1];
+                json.dump(DataJson,f_obj)
+             with open("Data.json", 'r') as f_obj:
+                DataJson=json.load(f_obj)
+                print(DataJson)
+    except:
+         pass
+    response_start_line = "HTTP/1.1 200 Success\r\n"
+    response_headers = "Server: ShiYuan Li\r\n"
+    response_body = ""
+    response = response_start_line + response_headers + "\r\n" + response_body
+
+    
+    client_socket.send(bytes(response, "utf-8"))
+
+    
+    client_socket.close()
+           
 
 if __name__ == "__main__":
     with open("Data.json", 'w+') as f_obj:
