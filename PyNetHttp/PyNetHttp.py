@@ -85,6 +85,7 @@ def handle_client(client_socket):
                 DataJson=json.load(f_obj)
                 if (rtx[2] in DataJson['A1']) or (rtx[2] in DataJson['A2']) or (rtx[2] in DataJson['A3']) or (rtx[2] in DataJson['A4']):
                   not_retuen_404=True;
+                   response_body="SS"
                   raise;
                 if rtx[1]=='A1':
                     DataJson['A1'].append(rtx[2])
