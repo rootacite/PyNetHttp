@@ -31,6 +31,7 @@ def get_host_ip():
 def handle_client(client_socket):
     request_data = client_socket.recv(4096)
     response_body="";
+    response_start_line = "HTTP/1.1 200 Success\r\n"
     request_n=str(request_data,"utf-8").split('\n');
 
     sv="";
@@ -73,7 +74,7 @@ def handle_client(client_socket):
                 
              with open("Statistical.json", 'w') as f_obj:
                 json.dump(DataJson,f_obj)
-         if rtx[0]=='ans':
+         elif rtx[0]=='ans':
              if len(rtx)<3:
                  print("Error : SE");
                  raise;
@@ -97,6 +98,8 @@ def handle_client(client_socket):
                 DataJson=json.load(f_obj)
                 print(DataJson)
                 response_body=str(DataJson)
+         else:
+             raise;
      if request_n[0][0:4]=="GET ":
          print("Command:",request_n[len(request_n)-1])
          tx=request_n[len(request_n)-1]
@@ -111,11 +114,11 @@ def handle_client(client_socket):
                 print(DataJson)
                 response_body+='\n';
                 response_body+=str(DataJson)
-
+     
 
     except:
-         pass
-    response_start_line = "HTTP/1.1 200 Success\r\n"
+         response_start_line = "HTTP/1.1 400 Bad Request\r\n"
+  
     response_headers = "Server: ShiYuan Li\r\n"
     response = response_start_line + response_headers + "\r\n" + response_body
 
