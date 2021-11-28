@@ -52,9 +52,10 @@ def handle_client(client_socket):
              if len(rtx)<2:
                  print("Error : SE");
                  raise;
-             with open("Data.json", 'w') as f_obj:
+             with open("Data.json", 'r') as f_obj:
                 DataJson=json.load(f_obj)
-                DataJson['Question']=rtx[1];
+                DataJson["Question"]=rtx[1];
+             with open("Data.json", 'w') as f_obj:
                 json.dump(DataJson,f_obj)
              with open("Data.json", 'r') as f_obj:
                 DataJson=json.load(f_obj)
