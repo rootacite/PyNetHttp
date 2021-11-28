@@ -34,7 +34,7 @@ def handle_client(client_socket):
     response_start_line = "HTTP/1.1 200 Success\r\n"
     request_n=str(request_data,"utf-8").split('\n');
 
-    not_retuen_404 = false;
+    not_retuen_404 = False;
 
     sv="";
     it=iter(request_n)
@@ -84,7 +84,7 @@ def handle_client(client_socket):
              with open("Statistical.json", 'r') as f_obj:
                 DataJson=json.load(f_obj)
                 if (rtx[2] in DataJson['A1']) or (rtx[2] in DataJson['A2']) or (rtx[2] in DataJson['A3']) or (rtx[2] in DataJson['A4']):
-                  not_retuen_404=true;
+                  not_retuen_404=True;
                   raise;
                 if rtx[1]=='A1':
                     DataJson['A1'].append(rtx[2])
