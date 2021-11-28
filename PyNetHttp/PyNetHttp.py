@@ -122,7 +122,7 @@ def handle_client(client_socket):
     response_headers = "Server: ShiYuan Li\r\n"
     response = response_start_line + response_headers + "\r\n" + response_body
 
-    
+    print("response:",response)
     client_socket.send(bytes(response, "utf-8"))
 
     
