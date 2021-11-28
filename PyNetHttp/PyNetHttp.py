@@ -11,7 +11,7 @@ from multiprocessing import Process
 from http import server
 from io import StringIO
  
-Data = {'Question': "你妈死了吗", 'A1': "死了", 'A2': "没死",'A3': "快死了",'A4': "快复活了"}
+Data = {'Question': "Q1", 'A1': "A1", 'A2': "A2",'A3': "A3",'A4': "A4"}
 Statistical= {'A1': [], 'A2': [],'A3': [], 'A4': []}
 
 def get_host_ip():
